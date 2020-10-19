@@ -1,0 +1,16 @@
+{
+  "name": "bots",
+  "version": "0.0.1",
+  "description": "some bots & schedules",
+  "main": "index.js",
+  "repository": "git@github.com:yuler/bots.git",
+  "author": "yuler <joyful4yu@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "date-fns": "^2.16.1",
+    "dotenv": "^8.2.0",
+    "got": "^11.7.0",
+    "imap": "^0.8.19",
+    "js-yaml": "^3.14.0"
+  }
+}

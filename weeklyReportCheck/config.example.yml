@@ -1,0 +1,5 @@
+EMAIL_IMAP_USER: yule@shihuituan.com
+EMAIL_IMAP_HOST: imap.exmail.qq.com
+EMAIL_IMAP_PORT: 993
+CHECK_RECEIVE_LIST:
+  yule@shihuituan.com: 177xxxx6915
