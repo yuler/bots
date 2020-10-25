@@ -13,7 +13,7 @@ const {
   EMAIL_IMAP_PORT,
   CHECK_RECEIVE_LIST
 } = yaml.safeLoad(fs.readFileSync(path.join(__dirname, './config.yml'), 'utf8'))
-const sinceDate = sub(new Date, { weeks: 1 })
+const sinceDate = sub(new Date, { days: 5 })
 
 const imap = new Imap({
   user: EMAIL_IMAP_USER,
@@ -70,7 +70,9 @@ imap.connect()
 async function checkout(messages, checkList) {
   for (let i = 0; i < messages.length; i ++) {
     // Format the `yule <yule@shihuituan.com>`
-    const from = messages[i].from[0].match(/<(.*)>/)[1]
+    const math = messages[i].from[0].match(/<(.*)>/)
+    const from = math && math[1]
+    if (!from) continue
     if (checkList[from]) {
       delete checkList[from]
     }
