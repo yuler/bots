@@ -24,11 +24,20 @@ const weekdays = {
 
 const name = `duty-schedule-${format(startOfWeek(new Date), 'yyyy-MM-dd')}`
 
-shuffle(groupA).forEach(add)
-shuffle(groupB).forEach(add)
-
-function add(person, index) {
-  weekdays[weekMap[index]].push(person)
+// @TODO Change it
+let shuffleA = shuffle(groupA)
+let shuffleB = shuffle(groupB)
+for (let i = 0; i < 5; i++) {
+  if (i == 2) {
+    const lastA = shuffleA[4]
+    const lastB = shuffleB[4]
+    groupA.splice(groupA.indexOf(lastA), 1)
+    groupB.splice(groupB.indexOf(lastB), 1)
+    shuffleA = [...shuffleA, ...shuffle(groupA)].concat([lastA])
+    shuffleB = [...shuffleB, ...shuffle(groupB)].concat([lastB])
+  }
+  weekdays[weekMap[i]].push(shuffleA[2 * i], shuffleA[ 2 * i + 1])
+  weekdays[weekMap[i]].push(shuffleB[2 * i], shuffleB[ 2 * i + 1])
 }
 
 // Create HTML 
@@ -54,6 +63,7 @@ const html =
     </style>
   </head>
   <body>
+    <h1>${name}</h1>
     <table>
       <tr>
         ${Object.keys(weekdays)
