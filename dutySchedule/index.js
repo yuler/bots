@@ -4,40 +4,35 @@ const { shuffle, unzip } = require('lodash')
 const { startOfWeek, format } = require('date-fns')
 const puppeteer = require('puppeteer')
 
-const groupA = ['周龙飞', '高智恒', '陈丽芬', '王京', '张义']
-const groupB = ['李明星', '刘亚晶', '袁野', '马现文', '胡雅斯']
+const groupA = ['袁野', '张义', '陈丽芬', '王京', '官茹' ]
+const groupB = ['李明星', '刘亚晶', '胡雅斯', '周龙飞', '王少华' ]
 
 const weekMap = {
   0: '星期一',
   1: '星期二',
   2: '星期三',
   3: '星期四',
-  4: '星期五'
+  4: '星期五',
+  5: '星期六',
 }
 const weekdays = {
   '星期一': [],
   '星期二': [],
   '星期三': [],
   '星期四': [],
-  '星期五': []
+  '星期五': [],
+  '星期六': [],
 }
 
 const name = `duty-schedule-${format(startOfWeek(new Date), 'yyyy-MM-dd')}`
 
 // @TODO Change it
-let shuffleA = shuffle(groupA)
-let shuffleB = shuffle(groupB)
-for (let i = 0; i < 5; i++) {
-  if (i == 2) {
-    const lastA = shuffleA[4]
-    const lastB = shuffleB[4]
-    groupA.splice(groupA.indexOf(lastA), 1)
-    groupB.splice(groupB.indexOf(lastB), 1)
-    shuffleA = [...shuffleA, ...shuffle(groupA)].concat([lastA])
-    shuffleB = [...shuffleB, ...shuffle(groupB)].concat([lastB])
-  }
-  weekdays[weekMap[i]].push(shuffleA[2 * i], shuffleA[ 2 * i + 1])
-  weekdays[weekMap[i]].push(shuffleB[2 * i], shuffleB[ 2 * i + 1])
+let shuffleA = [...shuffle(groupA), ...shuffle(groupA), ...shuffle(groupA)]
+let shuffleB = [...shuffle(groupB), ...shuffle(groupB), ...shuffle(groupB)]
+
+for (let i = 0; i < 6; i++) {
+  weekdays[weekMap[i]].push(shuffleA[3 * i], shuffleA[ 3 * i + 1], shuffleA[ 3 * i + 2])
+  weekdays[weekMap[i]].push(shuffleB[3 * i], shuffleB[ 3 * i + 1], shuffleB[ 3 * i + 2])
 }
 
 // Create HTML 
@@ -64,6 +59,7 @@ const html =
   </head>
   <body>
     <h1>${name}</h1>
+    <h2>注：如当天有事，找个同事替换下</h2>
     <table>
       <tr>
         ${Object.keys(weekdays)
